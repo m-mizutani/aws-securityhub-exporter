@@ -38,4 +38,5 @@ deploy: $(SAM_FILE)
 		--region $(shell jsonnet $(DEPLOY_CONFIG) | jq .Region) \
 		--template-file $(SAM_FILE) \
 		--stack-name $(shell jsonnet $(DEPLOY_CONFIG) | jq .StackName) \
-		--capabilities CAPABILITY_IAM
+		--capabilities CAPABILITY_IAM \
+		--no-fail-on-empty-changeset
