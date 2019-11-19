@@ -1,8 +1,9 @@
 {
-  build(S3Bucket, S3Prefix='', LambdaRoleArn='', Duration='10'):: {
+  build(S3Bucket, S3Prefix='', LambdaRoleArn='', Duration='10', Tags={}):: {
+    local LambdaTags = (if std.length(Tags) > 0 then { Tags: Tags } else {}),
+
     AWSTemplateFormatVersion: '2010-09-09',
     Transform: 'AWS::Serverless-2016-10-31',
-
     Resources: {
       // --------------------------------------------------------
       // Lambda functions
@@ -31,7 +32,7 @@
               },
             },
           },
-        },
+        } + LambdaTags,
       },
     } + (if LambdaRoleArn != '' then {} else {
            // --------------------------------------------------------
