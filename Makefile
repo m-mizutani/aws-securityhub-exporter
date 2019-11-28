@@ -9,6 +9,12 @@ TEMPLATE_FILE := template.json
 SAM_FILE := sam.yml
 BASE_FILE := $(CODE_DIR)/template.libsonnet
 
+ifdef TAGS
+TAGOPT=--tags $(TAGS)
+else
+TAGOPT=
+endif
+
 all: deploy
 
 test:
@@ -39,4 +45,5 @@ deploy: $(SAM_FILE)
 		--template-file $(SAM_FILE) \
 		--stack-name $(shell jsonnet $(DEPLOY_CONFIG) | jq .StackName) \
 		--capabilities CAPABILITY_IAM \
+		$(TAGOPT) \
 		--no-fail-on-empty-changeset
